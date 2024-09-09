@@ -1,7 +1,19 @@
 import { pipeline, env } from '@huggingface/transformers';
 
-// Skip local model check
-env.allowLocalModels = false;
+/* 
+  💡 SWITCH TO OFFLINE LOCAL MODE INSTEAD OF HUGGINGFACE CDN 
+  https://huggingface.co/docs/transformers.js/en/custom_usage
+*/
+// Specify a custom location for models (defaults to '/models/').
+env.localModelPath = '/models/';
+// Disable the loading of remote models from the Hugging Face Hub:
+env.allowRemoteModels = false;
+// Set location of .wasm files. Defaults to use a CDN.
+env.backends.onnx.wasm.wasmPaths = '/models/';
+env.allowLocalModels = true;
+
+// Skip local model check (REMOTE)
+// env.allowLocalModels = false;
 
 // Use the Singleton pattern to enable lazy construction of the pipeline.
 class PipelineSingleton {
@@ -14,7 +26,9 @@ class PipelineSingleton {
       this.instance = pipeline(this.task, this.model, {
         progress_callback,
         dtype: 'fp32',
-        device: !!navigator.gpu ? 'webgpu' : 'wasm',
+        device: navigator.gpu ? 'webgpu' : 'wasm',
+        // ESLint: Redundant double negation.eslintno-extra-boolean-cast
+        // device: !!navigator.gpu ? 'webgpu' : 'wasm',
       });
     }
     return this.instance;

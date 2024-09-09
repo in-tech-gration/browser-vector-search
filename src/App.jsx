@@ -126,7 +126,7 @@ export default function App() {
       {ready !== null && (
         <>
           <p className="text-center">Similarity Search results:</p>
-          <pre className="bg-gray-100 p-2 rounded">
+          <pre className="bg-black p-2 rounded">
             {!ready || !result ? 'Loading...' : JSON.stringify(result)}
           </pre>
         </>
