@@ -8,7 +8,12 @@
   --background-end-rgb: 255, 255, 255;
 }
 
-body {
+html {
+  color-scheme: dark;
+}
+
+/* DISABLED */
+body.disabled {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
       to bottom,

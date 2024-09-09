@@ -53,12 +53,13 @@ export default function App() {
         case 'ready':
           setReady(true);
           break;
-        case 'complete':
+        case 'complete': {
           // Cosine similarity search in pgvector
           const searchResults = await search(db.current, e.data.embedding);
           console.log({ searchResults });
           setResult(searchResults.map((x) => x.content));
           break;
+        }
       }
     };
 
@@ -96,7 +97,7 @@ export default function App() {
         </a>
       </h2>
       <p className="text-center">Items in database:</p>
-      <pre className="bg-gray-100 p-2 mb-4 rounded">
+      <pre className="bg-black p-2 mb-4 rounded">
         {JSON.stringify(content)}
       </pre>
       <form
